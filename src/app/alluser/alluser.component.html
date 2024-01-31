@@ -1,0 +1,26 @@
+<table border="2px" style="text-align: center;">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>ConfirmEmail</th>
+      <th>Phone-No</th>
+      <th>Skill</th>
+      <th>Proficiency</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of users;let i=index">
+      <td>{{item.name}}</td>
+      <td>{{item.email?item.email:'Email is not Enter'}}</td>
+      <td>{{item.confrimEmail?item.confrimEmail:'Confirm Email is not Enter'}}</td>
+      <td>{{item.phoneNo?item.phoneNo:'phone Is not Enter'}}</td>
+      <td>{{item.userData[0].skill}}</td>
+      <td>{{item.userData[0].proficiency}}</td>
+      <td style="cursor: pointer;">UPDATE</td>
+      <td style="cursor: pointer;" (click)="deleteUser(item.id)">DELETE</td>
+    </tr>
+  </tbody>
+</table>

@@ -5,9 +5,9 @@
   <span *ngIf="fromData.get('name').errors?.['pattern'] && fromData.get('name').touched">*Only Alphabets Charecter are valid</span><br>
 
   <label>Contect Refrence :- </label>
-  <input type="radio" name="Contect" value="email" (change)="changeContect($event)" >
+  <input type="radio" name="Contect" value="email" (change)="changeContect($event)"  >
   <label>Email</label>
-  <input type="radio" name="Contect" value="phoneNo"  (change)="changeContect($event)" >
+  <input type="radio" name="Contect" value="phoneNo"  (change)="changeContect($event)">
   <label>Phone No</label><br>
 
 
@@ -48,12 +48,13 @@
         <button (click)="removeField(i)">Remove</button>
       </div>
 
-      <button (click)="submitData()" [disabled]="fromData.get('phoneNo').valid || fromData.get('name').invalid || fromData.get('email').invalid ||fromData.get('confrimEmail').invalid || userFromData[i].get('skill').invalid || userFromData[i].get('proficiency').invalid" *ngIf="contectEmail">Submitt</button>
+      <!-- <button (click)="submitData()" [disabled]="fromData.get('phoneNo').valid || fromData.get('name').invalid || fromData.get('email').invalid ||fromData.get('confrimEmail').invalid || userFromData[i].get('skill').invalid || userFromData[i].get('proficiency').invalid" *ngIf="contectEmail">Submitt</button>
 
-      <button (click)="submitData()" [disabled]="fromData.get('email').valid || fromData.get('name').invalid || fromData.get('phoneNo').invalid || userFromData[i].get('skill').invalid || userFromData[i].get('proficiency').invalid" *ngIf="contectPhone">Submitt</button>
+      <button (click)="submitData()" [disabled]="fromData.get('email').valid || fromData.get('name').invalid || fromData.get('phoneNo').invalid || userFromData[i].get('skill').invalid || userFromData[i].get('proficiency').invalid" *ngIf="contectPhone">Submitt</button> -->
     </div>
 
     <button (click)="addSkill()">Add skill</button>
+    <button (click)="submitData()" [disabled]="show">Submitt</button>
   </div>
 
 </form>
@@ -61,3 +62,6 @@
 <p>{{confrimeamil}}</p>
 
 <p style="color: red;font-size: 20px;" *ngIf="value">*One Skill are add is mandatory</p>
+
+<a routerLink="/users">AllUser</a>
+<router-outlet></router-outlet>

@@ -1,26 +1,30 @@
-import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, DoCheck, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormArray } from '@angular/forms';
 import { customValidation } from './custom.validation';
-import Swal from 'sweetalert2';
+import { HttpClientModule } from '@angular/common/http';
+import { UserserviceService } from './services/userservice.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, RouterOutlet, ReactiveFormsModule, FormsModule,HttpClientModule,RouterLink],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  providers:[UserserviceService]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, DoCheck {
   title = 'taskProject';
 
   fromData: FormGroup;
   confrimeamil: string = ''
+
+  show: boolean = true;
   value:boolean=true
 
   contectEmail: boolean = false
@@ -30,7 +34,12 @@ export class AppComponent implements OnInit {
   @ViewChild('intermediate') intermediate: ElementRef
   @ViewChild('advanced') advanced: ElementRef
 
-  constructor(private fromBuilder: FormBuilder) { }
+  selectEmail: string = ''
+  selectPhone: string = ''
+
+
+  constructor(private fromBuilder: FormBuilder,private userService:UserserviceService) { }
+
 
   ngOnInit(): void {
     this.fromData = this.fromBuilder.group({
@@ -53,21 +62,21 @@ export class AppComponent implements OnInit {
       skill: ['', [Validators.required]],
       proficiency: ['', [Validators.required]],
     })
-
     return (this.fromData.get("userData") as FormArray).push(control)
   }
 
   submitData() {
     let data = this.fromData.value
 
-    Swal.fire("User Can add Successfully")
-
     if (data.email == data.confrimEmail) {
-      console.log(data)
+      this.userService.postUser(data).subscribe((ele)=>{
+        console.log(ele)
+      })
     }
     else {
       this.confrimeamil = "Please Enter Same Email And ConfrimEmail"
     }
+
     this.fromData.reset()
   }
 
@@ -99,6 +108,36 @@ export class AppComponent implements OnInit {
       this.contectPhone = true
       this.contectEmail = false
     }
+    this.selectEmail = value.srcElement.defaultValue
   }
+  
+  ngDoCheck() {
+    let data = this.fromData.value
 
+    let skills = data.userData.map((ele) => ele.skill)
+    let proficiency = data.userData.map((ele) => ele.proficiency)
+
+    switch (this.selectEmail) {
+      case 'email':
+        if (data.name == null || data.email == null || data.confrimEmail == null || skills == '' || proficiency == '') {
+          this.show = true
+        }
+        else {
+          this.show = false
+        }
+        break;
+
+      case 'phoneNo':
+        if (data.name == null || data.phoneNo == null || skills == '' || proficiency == '') {
+          this.show = true
+        }
+        else {
+          this.show = false
+        }
+        break;
+
+      default:"add valid"
+        break;
+    }
+  }
 }
