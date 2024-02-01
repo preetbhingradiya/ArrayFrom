@@ -1,32 +1,26 @@
 {
   "posts": [
     {
-      "id": "e419",
-      "name": "preeet",
-      "email": "preet@gmail.com",
-      "confrimEmail": "preet@gmail.com",
+      "id": "ec32",
+      "name": "rtgq",
+      "email": "jng@gmail.com",
+      "confrimEmail": "jng@gmail.com",
       "phoneNo": null,
+      "selectionOption": null,
       "userData": [
         {
-          "skill": "js",
-          "proficiency": "Advanced"
-        }
-      ],
-      "proficiency": "Advanced"
-    },
-    {
-      "id": "154d",
-      "name": "vinay",
-      "email": null,
-      "confrimEmail": null,
-      "phoneNo": 1234567890,
-      "userData": [
+          "skill": "dsafwefewfeefwefwef",
+          "proficiency": "Intermediate"
+        },
         {
-          "skill": "java",
+          "skill": "dsafwefewfeefwefwef",
+          "proficiency": "Intermediate"
+        },
+        {
+          "skill": "dsafwefewfeefwefwef",
           "proficiency": "Intermediate"
         }
-      ],
-      "proficiency": "Intermediate"
+      ]
     }
   ]
 }

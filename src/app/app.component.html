@@ -1,31 +1,33 @@
 <form [formGroup]="fromData" (keydown.enter)="$event.preventDefault()">
   <label>Name :- </label>
-  <input type="text" placeholder="Enter Your Name" formControlName="name"><br>
+  <input type="text" placeholder="Enter Your Name" formControlName="name" [(ngModel)]="EditName"><br>
   <span *ngIf="fromData.get('name').errors?.['required'] && fromData.get('name').touched">*Name field is required</span>
   <span *ngIf="fromData.get('name').errors?.['pattern'] && fromData.get('name').touched">*Only Alphabets Charecter are valid</span><br>
 
   <label>Contect Refrence :- </label>
-  <input type="radio" name="Contect" value="email" (change)="changeContect($event)"  >
+  <!-- <input  formControlName="selectionOption" > -->
+  <input type="radio" type="radio" name="contect" value="email" (change)="changeContect($event)">
   <label>Email</label>
-  <input type="radio" name="Contect" value="phoneNo"  (change)="changeContect($event)">
+  <!-- <input  formControlName="selectionOption"> -->
+  <input type="radio" name="contect" value="phoneNo"  (change)="changeContect($event)">
   <label>Phone No</label><br>
 
 
   <div *ngIf="contectEmail">
     <label>Email :- </label>
-    <input type="email"  placeholder="Enter Your Email" formControlName="email" email><br>
+    <input type="email"  placeholder="Enter Your Email" formControlName="email" email [(ngModel)]="EditEmail"><br>
     <span *ngIf="fromData.get('email').errors?.['required'] && fromData.get('email').touched">*Email field is required</span>
     <span *ngIf="fromData.get('email').errors?.['emailValid'] && fromData.get('email').touched">*Not Valid Email</span><br>
 
     <label>Confirm Email :- </label>
-    <input type="email"  placeholder="Enter Confirm Email" formControlName="confrimEmail" email><br>
+    <input type="email"  placeholder="Enter Confirm Email" formControlName="confrimEmail" email [(ngModel)]="EditConfirmEmail"><br>
     <span *ngIf="fromData.get('confrimEmail').errors?.['required'] && fromData.get('confrimEmail').touched">*ConfrimEmail field is required</span>
     <span *ngIf="fromData.get('confrimEmail').errors?.['emailValid'] && fromData.get('confrimEmail').touched">*Not Valid Email</span><br>
   </div>
 
   <div *ngIf="contectPhone">
     <label>Phone-No :- </label>
-    <input type="number" placeholder="Enter Phone no" formControlName="phoneNo" ><br>
+    <input type="number" placeholder="Enter Phone no" formControlName="phoneNo" [(ngModel)]="EditPhone"><br>
     <span *ngIf="fromData.get('phoneNo').errors?.['required'] && fromData.get('phoneNo').touched">*phoneNo field is required</span>
     <span *ngIf="fromData.get('phoneNo').errors?.['pattern'] && fromData.get('phoneNo').touched">*Minimum 10 number is required</span><br>
   </div>
@@ -34,15 +36,15 @@
     <div *ngFor="let item of userFromData;let i=index">
       <div [formGroupName]="i">
         <label>Skill :- </label>
-        <input type="skill" placeholder="Enter Your Skill" formControlName="skill"><br>
+        <input type="skill" placeholder="Enter Your Skill" formControlName="skill" [(ngModel)]="EditSkill"><br>
         <span *ngIf="userFromData[i].get('skill')?.hasError('required') && userFromData[i].get('skill')?.touched ">Skill field is required</span><br>
 
-        <label>proficiency :- </label>
-        <input type="radio" formControlName="proficiency" value="Beginner" (change)="onItemChange($event)" #beginner>
+        <label >proficiency :- </label>
+        <input type="radio" formControlName="proficiency" value="Beginner" (change)="onItemChange($event)" [(ngModel)]="EditProfici" #beginner>
         <label>Beginner</label>
-        <input type="radio" formControlName="proficiency" value="Intermediate" (change)="onItemChange($event)" #intermediate>
+        <input type="radio" formControlName="proficiency" value="Intermediate" (change)="onItemChange($event)" [(ngModel)]="EditProfici"  #intermediate>
         <label>Intermediate</label>
-        <input type="radio" formControlName="proficiency" value="Advanced" (change)="onItemChange($event)" #advanced>
+        <input type="radio" formControlName="proficiency" value="Advanced" (change)="onItemChange($event)" [(ngModel)]="EditProfici" #advanced>
         <label>Advanced</label>
 
         <button (click)="removeField(i)">Remove</button>
@@ -50,12 +52,13 @@
 
       <!-- <button (click)="submitData()" [disabled]="fromData.get('phoneNo').valid || fromData.get('name').invalid || fromData.get('email').invalid ||fromData.get('confrimEmail').invalid || userFromData[i].get('skill').invalid || userFromData[i].get('proficiency').invalid" *ngIf="contectEmail">Submitt</button>
 
-      <button (click)="submitData()" [disabled]="fromData.get('email').valid || fromData.get('name').invalid || fromData.get('phoneNo').invalid || userFromData[i].get('skill').invalid || userFromData[i].get('proficiency').invalid" *ngIf="contectPhone">Submitt</button> -->
-    </div>
+        <button (click)="submitData()" [disabled]="fromData.get('email').valid || fromData.get('name').invalid || fromData.get('phoneNo').invalid || userFromData[i].get('skill').invalid || userFromData[i].get('proficiency').invalid" *ngIf="contectPhone">Submitt</button> -->
+      </div>
 
-    <button (click)="addSkill()">Add skill</button>
-    <button (click)="submitData()" [disabled]="show">Submitt</button>
-  </div>
+      <button (click)="addSkill()">Add skill</button>
+      <button (click)="submitData()" [disabled]="show">Submitt</button>
+      <button (click)="updateData()">update</button>
+    </div>
 
 </form>
 
@@ -63,5 +66,7 @@
 
 <p style="color: red;font-size: 20px;" *ngIf="value">*One Skill are add is mandatory</p>
 
-<a routerLink="/users">AllUser</a>
-<router-outlet></router-outlet>
+<app-alluser (updateName)="UpdateName($event)" (updateEmail)="UpdateEmail($event)" (updateConfirmEmail)="UpdateConfrimEmail($event)" (updatePhone)="UpdatePhone($event)" (updateSkill)="UpdateSkill($event)" (updateProficiency)="UpdateProfici($event)" (updateID)="UpdateId($event)"  ></app-alluser>
+
+<!-- <a routerLink="/users">AllUser</a>
+<router-outlet></router-outlet> -->

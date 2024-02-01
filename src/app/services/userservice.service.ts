@@ -18,6 +18,11 @@ export class UserserviceService {
     return this.http.post(this.url,data)
   }
 
+  updateUser(id:any,data:any){
+    let updateUrl=`${this.url}/${id}`
+    return this.http.patch(updateUrl,data)
+  }
+
   deleteUser(id){
     let deleteUrl=`${this.url}/${id}`
     return this.http.delete(deleteUrl)

@@ -11,15 +11,15 @@
       <th></th>
     </tr>
   </thead>
-  <tbody>
-    <tr *ngFor="let item of users;let i=index">
+  <tbody *ngFor="let item of users;let i=index">
+    <tr>
       <td>{{item.name}}</td>
-      <td>{{item.email?item.email:'Email is not Enter'}}</td>
-      <td>{{item.confrimEmail?item.confrimEmail:'Confirm Email is not Enter'}}</td>
-      <td>{{item.phoneNo?item.phoneNo:'phone Is not Enter'}}</td>
-      <td>{{item.userData[0].skill}}</td>
-      <td>{{item.userData[0].proficiency}}</td>
-      <td style="cursor: pointer;">UPDATE</td>
+      <td>{{item.email}}</td>
+      <td>{{item.confrimEmail}}</td>
+      <td>{{item.phoneNo}}</td>
+      <td>{{item.userData[0].skill?item.userData[0].skill:'not add skill'}}</td>
+      <td>{{item.userData[0].proficiency?item.userData[0].proficiency:'not add proficiency'}}</td>
+      <td style="cursor: pointer;" (click)="updateUser(item,item.id)">UPDATE</td>
       <td style="cursor: pointer;" (click)="deleteUser(item.id)">DELETE</td>
     </tr>
   </tbody>

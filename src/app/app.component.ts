@@ -1,4 +1,4 @@
-import { Component, DoCheck, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, DoCheck, ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,23 +9,33 @@ import { FormArray } from '@angular/forms';
 import { customValidation } from './custom.validation';
 import { HttpClientModule } from '@angular/common/http';
 import { UserserviceService } from './services/userservice.service';
+import { AlluserComponent } from './alluser/alluser.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, ReactiveFormsModule, FormsModule,HttpClientModule,RouterLink],
+  imports: [CommonModule, RouterOutlet, ReactiveFormsModule, FormsModule, HttpClientModule, RouterLink, AlluserComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers:[UserserviceService]
+  providers: [UserserviceService]
 })
 export class AppComponent implements OnInit, DoCheck {
   title = 'taskProject';
+
+  EditName: string = ''
+  EditSelection:string=''
+  EditEmail: string = ''
+  EditConfirmEmail: string = ''
+  EditPhone: string = ''
+  EditSkill: string = ''
+  EditProfici: string = ''
+  CurrentID: any = ''
 
   fromData: FormGroup;
   confrimeamil: string = ''
 
   show: boolean = true;
-  value:boolean=true
+  value: boolean = true
 
   contectEmail: boolean = false
   contectPhone: boolean = false
@@ -34,11 +44,10 @@ export class AppComponent implements OnInit, DoCheck {
   @ViewChild('intermediate') intermediate: ElementRef
   @ViewChild('advanced') advanced: ElementRef
 
-  selectEmail: string = ''
-  selectPhone: string = ''
+   select: string = ''
 
 
-  constructor(private fromBuilder: FormBuilder,private userService:UserserviceService) { }
+  constructor(private fromBuilder: FormBuilder, private userService: UserserviceService) { }
 
 
   ngOnInit(): void {
@@ -47,6 +56,7 @@ export class AppComponent implements OnInit, DoCheck {
       email: [null, [Validators.required, customValidation.emailvalidation]],
       confrimEmail: [null, [Validators.required, customValidation.emailvalidation]],
       phoneNo: [null, [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      selectionOption: [null, [Validators.required]],
 
       userData: this.fromBuilder.array([])
     })
@@ -57,7 +67,7 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   addSkill() {
-    this.value=false
+    this.value = false
     let control = this.fromBuilder.group({
       skill: ['', [Validators.required]],
       proficiency: ['', [Validators.required]],
@@ -69,7 +79,7 @@ export class AppComponent implements OnInit, DoCheck {
     let data = this.fromData.value
 
     if (data.email == data.confrimEmail) {
-      this.userService.postUser(data).subscribe((ele)=>{
+      this.userService.postUser(data).subscribe((ele) => {
         console.log(ele)
       })
     }
@@ -78,6 +88,7 @@ export class AppComponent implements OnInit, DoCheck {
     }
 
     this.fromData.reset()
+    window.location.reload()
   }
 
   removeField(index: any) {
@@ -108,16 +119,16 @@ export class AppComponent implements OnInit, DoCheck {
       this.contectPhone = true
       this.contectEmail = false
     }
-    this.selectEmail = value.srcElement.defaultValue
+    this.select = value.srcElement.defaultValue
   }
-  
+
   ngDoCheck() {
     let data = this.fromData.value
 
     let skills = data.userData.map((ele) => ele.skill)
     let proficiency = data.userData.map((ele) => ele.proficiency)
 
-    switch (this.selectEmail) {
+    switch (this.select) {
       case 'email':
         if (data.name == null || data.email == null || data.confrimEmail == null || skills == '' || proficiency == '') {
           this.show = true
@@ -136,8 +147,44 @@ export class AppComponent implements OnInit, DoCheck {
         }
         break;
 
-      default:"add valid"
+      default: "add valid"
         break;
     }
+
+  }
+
+  public UpdateName(data: any): void {
+    this.EditName = data
+  }
+
+  public UpdateEmail(data: any): void {
+    this.EditEmail = data
+  }
+
+  public UpdateConfrimEmail(data: any): void {
+    this.EditConfirmEmail = data
+  }
+
+  public UpdatePhone(data: any): void {
+    this.EditPhone = data
+  }
+
+  public UpdateSkill(data: any): void {
+    this.EditSkill = data
+  }
+
+  public UpdateProfici(data: any): void {
+    this.EditProfici = data
+  }
+
+  public UpdateId(id: any): void {
+    this.CurrentID = id
+  }
+
+  updateData() {
+    let data = this.fromData.value
+    this.userService.updateUser(this.CurrentID, data).subscribe((ele) => {
+      window.location.reload()
+    })
   }
 }
