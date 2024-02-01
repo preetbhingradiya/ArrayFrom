@@ -23,6 +23,8 @@ export class AlluserComponent implements OnInit{
   @Output() updateProficiency=new EventEmitter<string>();
   @Output() updateID=new EventEmitter<any>();
 
+  @Output() editSubBtn=new EventEmitter<boolean>()
+
 
   @Input() selectUserOption:any;
 
@@ -53,9 +55,8 @@ export class AlluserComponent implements OnInit{
     this.updateSkill.emit(data.userData.map((ele)=>ele.skill))
     this.updateProficiency.emit(data.userData.map((ele)=>ele.proficiency))
     this.updateID.emit(id)
+    this.editSubBtn.emit(false)
 
-    // data.userData.map((ele)=>console.log(ele.skill))
-    data.userData.map((ele)=>console.log(ele.proficiency))
   }
 
 }

@@ -42,6 +42,8 @@ export class AppComponent implements OnInit, DoCheck {
   contectEmail: boolean = false
   contectPhone: boolean = false
 
+  updateSubmitBtn: boolean = true
+
   @ViewChild('beginner') beginner: ElementRef
   @ViewChild('intermediate') intermediate: ElementRef
   @ViewChild('advanced') advanced: ElementRef
@@ -156,7 +158,6 @@ export class AppComponent implements OnInit, DoCheck {
       default: "add valid"
         break;
     }
-
   }
 
   public UpdateName(data: any): void {
@@ -180,24 +181,38 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   public UpdateProfici(data: any): void {
-    let value = this.fromData.value
     this.EditProfici = data
-    let beginer = this.EditProfici.includes("Beginner")
 
-    if(beginer){
+    if (this.EditProfici.includes("Intermediate")) {
       let control = this.fromBuilder.group({
-        skill: ['', [Validators.required]],
-        proficiency: 'Beginner',
-      })
-      return (this.fromData.get("userData") as FormArray).push(control)
-    }
-    if(this.EditProfici.includes("Intermediate")){
-      let controls = this.fromBuilder.group({
-        skill: ['', [Validators.required]],
+        skill: this.EditSkill,
         proficiency: 'Intermediate',
       })
-      return (this.fromData.get("userData") as FormArray).push(controls)
+      this.value = false
+
+      return (this.fromData.get("userData") as FormArray).push(control)
     }
+
+    if (this.EditProfici.includes("Beginner")) {
+      let control = this.fromBuilder.group({
+        skill: this.EditSkill,
+        proficiency: 'Beginner',
+      })
+      this.value = false
+
+      return (this.fromData.get("userData") as FormArray).push(control)
+    }
+
+    if (this.EditProfici.includes("Advanced")) {
+      let control = this.fromBuilder.group({
+        skill: this.EditSkill,
+        proficiency: 'Advanced',
+      })
+      this.value = false
+
+      return (this.fromData.get("userData") as FormArray).push(control)
+    }
+
   }
 
   public UpdateId(id: any): void {
@@ -214,6 +229,10 @@ export class AppComponent implements OnInit, DoCheck {
       this.contectPhone = true
       this.contectEmail = false
     }
+  }
+
+  public UpdateSubmitBtn(btn: any): void {
+    this.updateSubmitBtn = btn
   }
 
   updateData() {
