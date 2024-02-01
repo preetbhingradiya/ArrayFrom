@@ -6,10 +6,10 @@
 
   <label>Contect Refrence :- </label>
   <!-- <input  formControlName="selectionOption" > -->
-  <input type="radio" type="radio" name="contect" value="email" (change)="changeContect($event)">
+  <input type="radio" type="radio" name="contect" value="email" [(ngModel)]="select" [ngModelOptions]="{standalone: true}"  (click)="changeContect($event)">
   <label>Email</label>
   <!-- <input  formControlName="selectionOption"> -->
-  <input type="radio" name="contect" value="phoneNo"  (change)="changeContect($event)">
+  <input type="radio" name="contect" value="phoneNo" [(ngModel)]="select" [ngModelOptions]="{standalone: true}"  (click)="changeContect($event)">
   <label>Phone No</label><br>
 
 
@@ -36,15 +36,15 @@
     <div *ngFor="let item of userFromData;let i=index">
       <div [formGroupName]="i">
         <label>Skill :- </label>
-        <input type="skill" placeholder="Enter Your Skill" formControlName="skill" [(ngModel)]="EditSkill"><br>
+        <input type="skill" placeholder="Enter Your Skill" formControlName="skill" ><br>
         <span *ngIf="userFromData[i].get('skill')?.hasError('required') && userFromData[i].get('skill')?.touched ">Skill field is required</span><br>
 
         <label >proficiency :- </label>
-        <input type="radio" formControlName="proficiency" value="Beginner" (change)="onItemChange($event)" [(ngModel)]="EditProfici" #beginner>
+        <input type="radio" formControlName="proficiency" value="Beginner" (change)="onItemChange($event)"  #beginner>
         <label>Beginner</label>
-        <input type="radio" formControlName="proficiency" value="Intermediate" (change)="onItemChange($event)" [(ngModel)]="EditProfici"  #intermediate>
+        <input type="radio" formControlName="proficiency" value="Intermediate" (change)="onItemChange($event)"  #intermediate>
         <label>Intermediate</label>
-        <input type="radio" formControlName="proficiency" value="Advanced" (change)="onItemChange($event)" [(ngModel)]="EditProfici" #advanced>
+        <input type="radio" formControlName="proficiency" value="Advanced" (change)="onItemChange($event)" #advanced>
         <label>Advanced</label>
 
         <button (click)="removeField(i)">Remove</button>
@@ -66,7 +66,7 @@
 
 <p style="color: red;font-size: 20px;" *ngIf="value">*One Skill are add is mandatory</p>
 
-<app-alluser (updateName)="UpdateName($event)" (updateEmail)="UpdateEmail($event)" (updateConfirmEmail)="UpdateConfrimEmail($event)" (updatePhone)="UpdatePhone($event)" (updateSkill)="UpdateSkill($event)" (updateProficiency)="UpdateProfici($event)" (updateID)="UpdateId($event)"  ></app-alluser>
+<app-alluser (updateName)="UpdateName($event)" (updateEmail)="UpdateEmail($event)" (updateConfirmEmail)="UpdateConfrimEmail($event)" (updatePhone)="UpdatePhone($event)" (updateSkill)="UpdateSkill($event)" (updateProficiency)="UpdateProfici($event)" (updateID)="UpdateId($event)" [selectUserOption]="select" (updateSelect)="UpdateSelection($event)"></app-alluser>
 
 <!-- <a routerLink="/users">AllUser</a>
 <router-outlet></router-outlet> -->

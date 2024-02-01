@@ -10,6 +10,7 @@ import { customValidation } from './custom.validation';
 import { HttpClientModule } from '@angular/common/http';
 import { UserserviceService } from './services/userservice.service';
 import { AlluserComponent } from './alluser/alluser.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -23,13 +24,14 @@ export class AppComponent implements OnInit, DoCheck {
   title = 'taskProject';
 
   EditName: string = ''
-  EditSelection:string=''
+  EditSelection: string = ''
   EditEmail: string = ''
   EditConfirmEmail: string = ''
   EditPhone: string = ''
   EditSkill: string = ''
   EditProfici: string = ''
   CurrentID: any = ''
+  userSub: Subscription
 
   fromData: FormGroup;
   confrimeamil: string = ''
@@ -44,13 +46,13 @@ export class AppComponent implements OnInit, DoCheck {
   @ViewChild('intermediate') intermediate: ElementRef
   @ViewChild('advanced') advanced: ElementRef
 
-   select: string = ''
+  select: string = ''
 
 
   constructor(private fromBuilder: FormBuilder, private userService: UserserviceService) { }
 
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.fromData = this.fromBuilder.group({
       name: [null, [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
       email: [null, [Validators.required, customValidation.emailvalidation]],
@@ -79,7 +81,10 @@ export class AppComponent implements OnInit, DoCheck {
     let data = this.fromData.value
 
     if (data.email == data.confrimEmail) {
-      this.userService.postUser(data).subscribe((ele) => {
+      if (this.userSub) {
+        this.userSub.unsubscribe();
+      }
+      this.userSub = this.userService.postUser(data).subscribe((ele) => {
         console.log(ele)
       })
     }
@@ -128,6 +133,7 @@ export class AppComponent implements OnInit, DoCheck {
     let skills = data.userData.map((ele) => ele.skill)
     let proficiency = data.userData.map((ele) => ele.proficiency)
 
+
     switch (this.select) {
       case 'email':
         if (data.name == null || data.email == null || data.confrimEmail == null || skills == '' || proficiency == '') {
@@ -174,11 +180,40 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   public UpdateProfici(data: any): void {
+    let value = this.fromData.value
     this.EditProfici = data
+    let beginer = this.EditProfici.includes("Beginner")
+
+    if(beginer){
+      let control = this.fromBuilder.group({
+        skill: ['', [Validators.required]],
+        proficiency: 'Beginner',
+      })
+      return (this.fromData.get("userData") as FormArray).push(control)
+    }
+    if(this.EditProfici.includes("Intermediate")){
+      let controls = this.fromBuilder.group({
+        skill: ['', [Validators.required]],
+        proficiency: 'Intermediate',
+      })
+      return (this.fromData.get("userData") as FormArray).push(controls)
+    }
   }
 
   public UpdateId(id: any): void {
     this.CurrentID = id
+  }
+
+  public UpdateSelection(data: any): void {
+    this.select = data
+    if (this.select == "email") {
+      this.contectEmail = true
+      this.contectPhone = false
+    }
+    if (this.select == "phoneNo") {
+      this.contectPhone = true
+      this.contectEmail = false
+    }
   }
 
   updateData() {

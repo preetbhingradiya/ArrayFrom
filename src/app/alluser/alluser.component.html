@@ -1,24 +1,24 @@
-<table border="2px" style="text-align: center;">
+<table border="2px">
   <thead>
     <tr>
       <th>Name</th>
       <th>Email</th>
       <th>ConfirmEmail</th>
       <th>Phone-No</th>
-      <th>Skill</th>
-      <th>Proficiency</th>
+      <th colspan="2">Skill</th>
+      <th colspan="2">Proficiency</th>
       <th></th>
       <th></th>
     </tr>
   </thead>
   <tbody *ngFor="let item of users;let i=index">
-    <tr>
+    <tr >
       <td>{{item.name}}</td>
       <td>{{item.email}}</td>
       <td>{{item.confrimEmail}}</td>
       <td>{{item.phoneNo}}</td>
-      <td>{{item.userData[0].skill?item.userData[0].skill:'not add skill'}}</td>
-      <td>{{item.userData[0].proficiency?item.userData[0].proficiency:'not add proficiency'}}</td>
+      <td *ngFor="let list of item.userData">{{list.skill}}</td>
+      <td *ngFor="let list of item.userData">{{list.proficiency}} </td>
       <td style="cursor: pointer;" (click)="updateUser(item,item.id)">UPDATE</td>
       <td style="cursor: pointer;" (click)="deleteUser(item.id)">DELETE</td>
     </tr>

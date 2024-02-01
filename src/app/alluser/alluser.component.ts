@@ -17,6 +17,7 @@ export class AlluserComponent implements OnInit{
   @Output() updateName=new EventEmitter<string>();
   @Output() updateEmail=new EventEmitter<string>();
   @Output() updateConfirmEmail=new EventEmitter<string>();
+  @Output() updateSelect=new EventEmitter<string>();
   @Output() updatePhone=new EventEmitter<any>();
   @Output() updateSkill=new EventEmitter<string>();
   @Output() updateProficiency=new EventEmitter<string>();
@@ -47,13 +48,14 @@ export class AlluserComponent implements OnInit{
     this.updateName.emit(data.name);
     this.updateEmail.emit(data.email)
     this.updateConfirmEmail.emit(data.confrimEmail)
+    this.updateSelect.emit(data.phoneNo?this.selectUserOption="phoneNo":this.selectUserOption="email")
     this.updatePhone.emit(data.phoneNo)
-    this.updateSkill.emit(data.userData[0].skill)
-    this.updateProficiency.emit(data.userData[0].proficiency)
+    this.updateSkill.emit(data.userData.map((ele)=>ele.skill))
+    this.updateProficiency.emit(data.userData.map((ele)=>ele.proficiency))
     this.updateID.emit(id)
 
-    console.log(data.confrimEmail);
-
+    // data.userData.map((ele)=>console.log(ele.skill))
+    data.userData.map((ele)=>console.log(ele.proficiency))
   }
 
 }

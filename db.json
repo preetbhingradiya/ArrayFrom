@@ -1,26 +1,23 @@
 {
   "posts": [
     {
-      "id": "ec32",
-      "name": "rtgq",
-      "email": "jng@gmail.com",
-      "confrimEmail": "jng@gmail.com",
-      "phoneNo": null,
+      "id": "fd98",
+      "name": "fwefewF",
+      "email": "",
+      "confrimEmail": "",
+      "phoneNo": 4213213213,
       "selectionOption": null,
       "userData": [
         {
-          "skill": "dsafwefewfeefwefwef",
-          "proficiency": "Intermediate"
+          "skill": "ERGRETE",
+          "proficiency": "Beginner"
         },
         {
-          "skill": "dsafwefewfeefwefwef",
-          "proficiency": "Intermediate"
-        },
-        {
-          "skill": "dsafwefewfeefwefwef",
+          "skill": "rett",
           "proficiency": "Intermediate"
         }
-      ]
+      ],
+      "proficiency": "Intermediate"
     }
   ]
 }
